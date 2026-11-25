@@ -88,6 +88,11 @@ for (const entry of readdirSync(join(ROOT, 'packages'), { withFileTypes: true })
     console.warn(`skip ${dir}: no dsh.bundle.patch`)
     continue
   }
+  if (manifest.dshMarket?.exclude === true) {
+    // 仓库里留着代码，但不进索引：Discover 里就不会挂一个装不上的条目
+    console.log(`skip ${dir}: excluded from the index (dshMarket.exclude)`)
+    continue
+  }
 
   const en = readLocale(dir, 'en')
   const zh = readLocale(dir, 'zh')

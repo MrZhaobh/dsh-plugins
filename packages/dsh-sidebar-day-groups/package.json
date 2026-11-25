@@ -21,6 +21,7 @@
     }
   },
   "dshMarket": {
+    "exclude": true,
     "category": "sidebar",
     "labels": [
       "builtin-fork",

@@ -168,58 +168,6 @@
           }
         }
       ]
-    },
-    {
-      "name": "@mrzhaobh/dsh-sidebar-day-groups",
-      "title": {
-        "en": "Sidebar day groups and stars",
-        "zh": "侧栏：按天分组 + 星标"
-      },
-      "description": {
-        "en": "Groups sidebar sessions under today, yesterday, and exact dates, and adds a one-click star to each session row. It replaces the built-in workspace plugin, so it is tied to one DSH version: this bundle targets 0.2.2-rc.1 and needs the fork patch replayed before it installs on a newer DSH.",
-        "zh": "把侧栏会话分成「今天 / 昨天 / 具体日期」分段，并给会话行加一键星标。因为是替换内置会话区，所以与 DSH 版本强绑定：当前 bundle 基于 0.2.2-rc.1，在更新的 DSH 上需要先重放补丁（见包内 README）才可安装。"
-      },
-      "author": "MrZhaobh",
-      "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-sidebar-day-groups",
-      "repository": {
-        "url": "https://github.com/MrZhaobh/dsh-plugins",
-        "directory": "packages/dsh-sidebar-day-groups"
-      },
-      "icon": "packages/dsh-sidebar-day-groups/icon.svg",
-      "metadata": {
-        "category": "sidebar",
-        "labels": [
-          "builtin-fork",
-          "version-pinned",
-          "needs-restart"
-        ],
-        "keywords": [
-          "sidebar",
-          "session list",
-          "group by day",
-          "star",
-          "favorite",
-          "pinned",
-          "按天分组",
-          "星标",
-          "置顶"
-        ]
-      },
-      "versions": [
-        {
-          "version": "1.0.0",
-          "publishTimestamp": 1795576194,
-          "source": {
-            "type": "git",
-            "url": "https://github.com/MrZhaobh/dsh-plugins",
-            "commit": "fe38315f202a26431212ed449d9a910b74c87bed",
-            "path": "packages/dsh-sidebar-day-groups"
-          },
-          "engines": {
-            "dsh": "0.2.2-rc.1"
-          }
-        }
-      ]
     }
   ]
 }
