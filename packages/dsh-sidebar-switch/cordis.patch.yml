@@ -1,0 +1,9 @@
+# @mrzhaobh/dsh-sidebar-switch 的 bundle 层：插入它自己的一行。
+#
+# 它必须**始终启用**：切换靠启用/禁用 @mrzhaobh/dsh-sidebar-day 的 loader 行实现，
+# 如果按钮自己也在那个包里，禁用后就再也切不回来了。
+#
+# 它只往侧栏底部动作区注册一个按钮，不替换任何内置实现。
+- insert:
+    - id: sidebar-switch
+      name: "./index.js"

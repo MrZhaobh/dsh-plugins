@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Sidebar view switch",
+    "description": "Adds a button at the sidebar foot that switches the session list between the built-in view and grouping by day. The switch enables or disables the by-day plugin's loader row, so it applies immediately without a restart and the choice is remembered. This plugin stays enabled itself, so you can always switch back."
+  }
+}

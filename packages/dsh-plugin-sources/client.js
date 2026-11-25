@@ -11,7 +11,7 @@ window.__ModuleLoader__.load({
 		const jsxs = jsxRuntime.jsxs;
 
 		const NS = "plugin-sources";
-		const COLLAPSED_KEY = "dsh.pluginSources.collapsed.v1";
+		const COLLAPSED_KEY = "dsh.pluginSources.collapsed.v2";
 
 		/** 固定分组的名字进字典；仓库型分组直接用 owner/repo 显示。 */
 		const zh = {
@@ -167,7 +167,10 @@ window.__ModuleLoader__.load({
 					patch({ status: "error", error: String(message) });
 					return;
 				}
-				const entries = Array.isArray(result.value?.entries) ? result.value.entries : [];
+				// Remote 的 listBundles 返回的 value 本身就是**数组**（不是 { entries }）；
+				// 这里两种形态都兼容，避免再次读空。
+				const raw = result.value;
+				const entries = Array.isArray(raw) ? raw : Array.isArray(raw?.entries) ? raw.entries : [];
 				patch({ status: "ready", groups: groupEntries(entries), error: null });
 			} catch (error) {
 				patch({ status: "error", error: error instanceof Error ? error.message : String(error) });
@@ -180,10 +183,10 @@ window.__ModuleLoader__.load({
 			display: "flex",
 			alignItems: "center",
 			gap: "8px",
-			padding: "6px 10px",
+			padding: "5px 10px 5px 24px",
 			borderRadius: "6px",
 			cursor: "pointer",
-			fontSize: "13px",
+			fontSize: "12.5px",
 			lineHeight: "18px",
 		};
 
@@ -195,23 +198,39 @@ window.__ModuleLoader__.load({
 				style: {
 					display: "flex",
 					alignItems: "center",
-					gap: "6px",
+					gap: "8px",
 					width: "100%",
-					background: "none",
-					border: "0",
-					padding: "10px 10px 6px",
+					boxSizing: "border-box",
+					// 明显的分组标题：浅色底 + 左侧强调色竖条 + 分隔
+					background: "var(--dsw-alias-bg-secondary, rgba(255,255,255,0.05))",
+					borderTop: "1px solid var(--dsw-alias-border-secondary, rgba(255,255,255,0.08))",
+					borderRight: "0",
+					borderBottom: "0",
+					borderLeft: "3px solid var(--dsw-alias-state-business-primary, #6f8ff8)",
+					borderRadius: "0 6px 6px 0",
+					padding: "9px 10px",
+					margin: "10px 0 3px",
 					cursor: "pointer",
 					font: "inherit",
-					fontSize: "12px",
+					fontSize: "12.5px",
 					fontWeight: "600",
-					color: "var(--dsw-text-secondary, inherit)",
+					letterSpacing: "0.01em",
+					color: "var(--dsw-alias-label-primary, #e6e6e6)",
 					textAlign: "left",
 				},
 				children: [
-					jsx("span", { "aria-hidden": "true", children: collapsed ? "▸" : "▾" }),
-					jsx("span", { children: label }),
+					jsx("span", { "aria-hidden": "true", style: { fontSize: "9px", opacity: "0.7" }, children: collapsed ? "▸" : "▾" }),
+					jsx("span", { style: { flex: "1 1 auto", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: label }),
 					jsx("span", {
-						style: { opacity: "0.6", fontWeight: "400" },
+						style: {
+							flex: "0 0 auto",
+							opacity: "0.8",
+							fontWeight: "400",
+							fontSize: "11px",
+							padding: "0 6px",
+							borderRadius: "999px",
+							background: "var(--dsw-alias-bg-primary, rgba(0,0,0,0.25))",
+						},
 						children: String(group.count),
 					}),
 				],

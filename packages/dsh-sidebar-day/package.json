@@ -1,0 +1,60 @@
+{
+  "name": "@mrzhaobh/dsh-sidebar-day",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adds a By day panel to the sidebar: sessions grouped under today, yesterday and exact dates, while the built-in Sessions panel stays untouched.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./client": {
+      "default": "./client.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "engines": {
+      "dsh": ">=0.2.2-rc.5"
+    },
+    "client": {
+      "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dshMarket": {
+    "exclude": true,
+    "category": "sidebar",
+    "labels": [
+      "uses-slots",
+      "zero-config"
+    ],
+    "keywords": [
+      "sidebar",
+      "panel",
+      "group by day",
+      "day groups",
+      "按天分组",
+      "日期分段",
+      "侧栏面板"
+    ]
+  },
+  "scripts": {
+    "test": "node test/panel.test.mjs"
+  },
+  "license": "MIT"
+}

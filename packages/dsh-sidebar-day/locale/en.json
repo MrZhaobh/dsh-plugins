@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Sidebar day groups",
+    "description": "Takes over the whole sidebar session list and sections it by day (today, yesterday, exact dates), with pinned sessions in their own section and collapsible groups. It replaces the built-in sidebar implementation rather than patching it, so a DSH upgrade needs no patch porting as long as the slot contract holds. The tradeoff is that built-in sidebar interactions must be rebuilt; this version ships the session list, day grouping, collapsing, click-to-open and the pinned mark."
+  }
+}

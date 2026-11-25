@@ -1,0 +1,58 @@
+{
+  "name": "@mrzhaobh/dsh-session-dates",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shows each sidebar session's day as a small label on the row end. It only uses a built-in row slot, so it replaces nothing and never needs re-porting after a DSH upgrade.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./client": {
+      "default": "./client.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "engines": {
+      "dsh": ">=0.2.2-rc.5"
+    },
+    "client": {
+      "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dshMarket": {
+    "exclude": true,
+    "category": "sidebar",
+    "labels": [
+      "uses-slots",
+      "zero-config"
+    ],
+    "keywords": [
+      "sidebar",
+      "session date",
+      "day label",
+      "日期标签",
+      "按天"
+    ]
+  },
+  "scripts": {
+    "test": "node test/dates.test.mjs"
+  },
+  "license": "MIT"
+}

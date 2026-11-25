@@ -209,7 +209,7 @@ const failText = textOf(expand(failing.stats.registrations[0].component(props)).
 check('failure is shown instead of throwing', failText.join(' ').includes('boom'), true);
 
 // --- 折叠 --------------------------------------------------------------
-localStorage.setItem('dsh.pluginSources.collapsed.v1', '{"keys":[]}');
+localStorage.setItem('dsh.pluginSources.collapsed.v2', '{"keys":[]}');
 const foldLoaded = boot();
 const foldApi = foldLoaded.factory(fakeRequire);
 const fold = makeCtx({ result: { ok: true, value: { entries: BUNDLES } } });
@@ -231,7 +231,7 @@ const afterText = textOf(afterCollapse);
 check(`collapsing "${targetLabel}" hides its rows`, afterText.length < textOf(foldTree).length, true);
 check(
   'collapsed state is persisted',
-  JSON.parse(localStorage.getItem('dsh.pluginSources.collapsed.v1')).keys.length,
+  JSON.parse(localStorage.getItem('dsh.pluginSources.collapsed.v2')).keys.length,
   1,
 );
 
@@ -251,3 +251,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 console.log('plugin sources wiring: all checks passed');
+
