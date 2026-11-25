@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Composer self-heal",
+    "description": "Reloads the page when a session is open but the composer has disappeared, and appends what it saw to ~/.dsh/logs/composer-heal.jsonl so the original crash can be diagnosed later. At most three automatic reloads per ten minutes, then it stops and shows a notice."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "name": "@mrzhaobh/dsh-composer-heal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reloads the page when the DeepSeek Harness composer disappears, with a 10-minute circuit breaker and an on-disk incident log.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./client": {
+      "default": "./client.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "engines": {
+      "dsh": ">=0.2.1-rc.1"
+    },
+    "client": {
+      "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dshMarket": {
+    "category": "composer",
+    "labels": [
+      "zero-config",
+      "writes-log"
+    ],
+    "keywords": [
+      "composer",
+      "input box",
+      "self heal",
+      "reload",
+      "输入框",
+      "自愈",
+      "重载"
+    ]
+  },
+  "license": "MIT"
+}

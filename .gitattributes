@@ -1,0 +1,15 @@
+# 常规文本统一 LF
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.md    text eol=lf
+*.svg   text eol=lf
+
+# 构建产物与补丁必须按字节保存，绝不做行尾转换：
+# - patch/*.patch 靠行尾精确匹配，CRLF 会让 git apply 失败
+# - vendor/ 与 upstream/ 是上游 bundle 的原样副本，改动行尾即改变文件内容
+# 这些规则放在最后，因为 gitattributes 以最后一个匹配的规则为准。
+*.patch                                        -text
+packages/dsh-sidebar-day-groups/vendor/**      -text
+packages/dsh-sidebar-day-groups/upstream/**    -text
