@@ -161,11 +161,11 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": 1795578629,
+          "publishTimestamp": 1795592389,
           "source": {
             "type": "git",
             "url": "https://github.com/MrZhaobh/dsh-plugins",
-            "commit": "7fa2a212a66258d2c3339896ba443406d1daf66e",
+            "commit": "6f205479096e7c016800c3701fc380decce04b27",
             "path": "packages/dsh-plugin-sources"
           },
           "engines": {
@@ -263,11 +263,11 @@
       "versions": [
         {
           "version": "2.0.0",
-          "publishTimestamp": 1795580769,
+          "publishTimestamp": 1795581194,
           "source": {
             "type": "git",
             "url": "https://github.com/MrZhaobh/dsh-plugins",
-            "commit": "e7e43630bcedaaa2f33ede1dc720585171a71a27",
+            "commit": "4eaee3b60218a6ec440aa20a6ff8645af2c7ad7c",
             "path": "packages/dsh-sidebar-day-groups"
           },
           "engines": {
