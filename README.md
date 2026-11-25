@@ -27,6 +27,7 @@ https://raw.githubusercontent.com/MrZhaobh/dsh-plugins/refs/heads/main/dsh-index
 
 | 包名 | 分类 | 说明 |
 |---|---|---|
+| `@mrzhaobh/dsh-session-stars` | 侧栏 | 会话一键星标：悬停 ☆，已星标的行尾常驻 🌟（只占用内置槽位，**不替换任何内置插件**） |
 | `@mrzhaobh/dsh-sidebar-day-groups` | 侧栏 | 会话区按天分组 + 一键星标 + 置顶段（替换内置 `ui-workspace`） |
 | `@mrzhaobh/dsh-composer-heal` | 输入框 | 输入框消失时自动重载页面，带熔断和现场落盘 |
 
@@ -34,7 +35,8 @@ https://raw.githubusercontent.com/MrZhaobh/dsh-plugins/refs/heads/main/dsh-index
 
 ## 版本兼容
 
-- **`dsh-sidebar-day-groups` 精确锁定 DSH `0.2.2-rc.5`**。它替换内置的 `@deepseek-ai/dsh-client-ui-workspace`，上游 bundle 一变就可能让侧边栏不渲染。升级 DSH 后先按包内 README 重放补丁，再改 `engines.dsh` 重新发版。
+- **`dsh-session-stars`** 只往内置 `ui-workspace` 声明的行槽位里注册条目，不 disable、不替换任何内置行，要求 `>=0.2.2-rc.5`（更早的版本没有 `sidebar.session.row.trailing`）。DSH 升级通常不需要跟着改。
+- **`dsh-sidebar-day-groups` 精确锁定 DSH `0.2.2-rc.1`**。它替换内置的 `@deepseek-ai/dsh-client-ui-workspace`，上游 bundle 一变就可能让侧边栏不渲染。升级 DSH 后先按包内 README 重放补丁，再改 `engines.dsh` 重新发版。**当前 0.2.2-rc.5 上会被拒绝安装，这是故意的。**
 - **`dsh-composer-heal`** 不替换任何内置行，只插入自己的一行，兼容 `>=0.2.1-rc.1`。
 
 `engines.dsh` 写在索引里，DSH 会据此判断能否安装，不兼容时会直接拒绝而不是装上再崩。

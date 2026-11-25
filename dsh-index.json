@@ -53,6 +53,18 @@
           "en": "Writes a log",
           "zh": "会写日志"
         }
+      },
+      "uses-slots": {
+        "title": {
+          "en": "Uses built-in slots",
+          "zh": "用内置槽位"
+        }
+      },
+      "local-data": {
+        "title": {
+          "en": "Stored locally",
+          "zh": "仅存本机"
+        }
       }
     }
   },
@@ -102,6 +114,57 @@
           },
           "engines": {
             "dsh": ">=0.2.1-rc.1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@mrzhaobh/dsh-session-stars",
+      "title": {
+        "en": "Session stars",
+        "zh": "会话星标"
+      },
+      "description": {
+        "en": "Star sidebar sessions with one click: a star appears on the row while hovering, and starred rows keep a mark at the end. It only uses the row slots the built-in workspace plugin already declares, so it replaces nothing and usually survives a DSH upgrade. Stars live in browser localStorage under dsh.workspace.starred.v1.",
+        "zh": "给侧栏会话一键加星：悬停时行尾出现 ☆，点一下变金色 ★ 并在行尾留下 🌟 标记。只占用内置会话区已经声明的行槽位，不替换任何内置插件，所以 DSH 升级通常不需要跟着改。星标状态存在浏览器本地（localStorage 的 dsh.workspace.starred.v1）。"
+      },
+      "author": "MrZhaobh",
+      "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-session-stars",
+      "repository": {
+        "url": "https://github.com/MrZhaobh/dsh-plugins",
+        "directory": "packages/dsh-session-stars"
+      },
+      "icon": "packages/dsh-session-stars/icon.svg",
+      "metadata": {
+        "category": "sidebar",
+        "labels": [
+          "uses-slots",
+          "zero-config",
+          "local-data"
+        ],
+        "keywords": [
+          "star",
+          "favorite",
+          "bookmark",
+          "session list",
+          "sidebar",
+          "星标",
+          "收藏",
+          "会话"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": null,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/MrZhaobh/dsh-plugins",
+            "commit": "",
+            "path": "packages/dsh-session-stars"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.5"
           }
         }
       ]

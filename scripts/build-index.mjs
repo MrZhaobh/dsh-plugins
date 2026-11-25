@@ -34,6 +34,8 @@ const declarations = {
     'needs-restart': { title: { en: 'Needs restart', zh: '需重启' } },
     'zero-config': { title: { en: 'No setup', zh: '零配置' } },
     'writes-log': { title: { en: 'Writes a log', zh: '会写日志' } },
+    'uses-slots': { title: { en: 'Uses built-in slots', zh: '用内置槽位' } },
+    'local-data': { title: { en: 'Stored locally', zh: '仅存本机' } },
   },
 }
 
@@ -92,6 +94,12 @@ for (const entry of readdirSync(join(ROOT, 'packages'), { withFileTypes: true })
   const market = manifest.dshMarket ?? {}
 
   const [commit, commitTime] = git('log', '-1', '--format=%H%n%ct', '--', dir).split('\n')
+  if (!/^[0-9a-f]{40}$/u.test(commit ?? '')) {
+    // 没有提交就取不到可钉的 commit，宁可报错也不要产出空值（校验器会拒收）
+    console.error(`${dir}: no commit yet — commit this package before rebuilding the index`)
+    process.exitCode = 1
+    continue
+  }
 
   const current = {
     version: manifest.version,

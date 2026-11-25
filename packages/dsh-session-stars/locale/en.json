@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Session stars",
+    "description": "Star sidebar sessions with one click: a star appears on the row while hovering, and starred rows keep a mark at the end. It only uses the row slots the built-in workspace plugin already declares, so it replaces nothing and usually survives a DSH upgrade. Stars live in browser localStorage under dsh.workspace.starred.v1."
+  }
+}
