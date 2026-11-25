@@ -47,7 +47,9 @@ check(
 );
 check('registry spec', api.groupKeyOf({ source: 'dsh-balance@0.2.9' }), 'registry');
 check('registry range spec', api.groupKeyOf({ source: 'dsh-free-search@^0.9.57' }), 'registry');
-check('link spec', api.groupKeyOf({ source: 'link:J:/myProject/dsh-plugins/packages/dsh-session-stars' }), 'local');
+check('own-repo link spec is tagged local', api.groupKeyOf({ source: 'link:J:/myProject/dsh-plugins/packages/dsh-session-stars' }), 'local:MrZhaobh/dsh-plugins');
+check('other link spec stays plain local', api.groupKeyOf({ source: 'link:D:/other/thing' }), 'local');
+check('own-repo link title marks itself local', api.groupTitleOf('local:MrZhaobh/dsh-plugins'), 'MrZhaobh/dsh-plugins（本地）');
 check('file spec', api.groupKeyOf({ source: 'file:../x' }), 'local');
 check('raw git url', api.groupKeyOf({ source: 'git+https://github.com/a/b.git#abc' }), 'git');
 check('gitlab spec', api.groupKeyOf({ source: 'gitlab:a/b#c' }), 'gitlab:a/b');
@@ -115,3 +117,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 console.log('plugin sources groups: all checks passed');
+

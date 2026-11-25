@@ -43,13 +43,16 @@ window.__ModuleLoader__.load({
 
 		//#region group-core
 		const FIXED_GROUPS = new Set(["built-in", "registry", "local", "git", "unknown"]);
+		/** 本仓库的显示名；link 安装到本地检出目录时用它把"本地"和"git"区分开。 */
+		const OWN_REPO = "MrZhaobh/dsh-plugins";
 
 		/**
 		 * 把一个 bundle 的 `source`（pnpm 接受的 spec）归到一个分组键。
 		 * 认得的形态：
 		 *   github:owner/repo#<commit>&path:/x  → github:owner/repo
+		 *   link:/path/to/dsh-plugins/packages/x → local:MrZhaobh/dsh-plugins（本仓库的本地检出）
+		 *   link:/other / file:…                → local
 		 *   dsh-balance@0.2.9                   → registry
-		 *   link:J:/... / file:...              → local
 		 *   其他 git+… 或含协议的               → git
 		 * 没有 source 的：安装自带的进 built-in，其余进 unknown。
 		 */
@@ -64,15 +67,19 @@ window.__ModuleLoader__.load({
 				// 去掉 #commit 与 &path:/…，只留 owner/repo
 				return `${hosted[1]}:${hosted[2].split(/[#&]/u)[0]}`;
 			}
-			if (text.startsWith("link:") || text.startsWith("file:")) return "local";
+			if (text.startsWith("link:") || text.startsWith("file:")) {
+				// 本地检出目录里带 dsh-plugins/packages/ 的，认成本仓库的本地版
+				return /dsh-plugins[\\/]+packages[\\/]/iu.test(text) ? `local:${OWN_REPO}` : "local";
+			}
 			if (text.startsWith("git+") || text.includes("://")) return "git";
 			// name@version / name@^range / npm:alias 都是走 registry 装的
 			return "registry";
 		}
 
-		/** 分组标题：固定组走字典，仓库组显示 owner/repo。 */
+		/** 分组标题：固定组走字典，仓库组显示 owner/repo，本仓库的本地版额外标注。 */
 		function groupTitleOf(key) {
 			if (FIXED_GROUPS.has(key)) return key;
+			if (key.startsWith("local:")) return `${key.slice(6)}（本地）`;
 			const scp = /^[a-z]+:(.+)$/u.exec(key);
 			return scp === null ? key : scp[1];
 		}
