@@ -175,6 +175,53 @@
       ]
     },
     {
+      "name": "@mrzhaobh/dsh-session-dates",
+      "title": {
+        "en": "Session date groups",
+        "zh": "会话日期分组"
+      },
+      "description": {
+        "en": "Adds date headings to the built-in sidebar in One list and Last updated mode. Uses the existing rows and their actions.",
+        "zh": "在侧栏选择「单列表」和「最近更新」后，原生会话列表会显示日期分组标题，保留会话行及其操作。"
+      },
+      "author": "MrZhaobh",
+      "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-session-dates",
+      "repository": {
+        "url": "https://github.com/MrZhaobh/dsh-plugins",
+        "directory": "packages/dsh-session-dates"
+      },
+      "icon": "packages/dsh-session-dates/icon.svg",
+      "metadata": {
+        "category": "sidebar",
+        "labels": [
+          "uses-slots",
+          "zero-config"
+        ],
+        "keywords": [
+          "sidebar",
+          "session date",
+          "day groups",
+          "日期分组",
+          "按天"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.1.0",
+          "publishTimestamp": 1795595953,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/MrZhaobh/dsh-plugins",
+            "commit": "c369b1802ac817b14c5bd653f677500ffe7e9267",
+            "path": "packages/dsh-session-dates"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.5"
+          }
+        }
+      ]
+    },
+    {
       "name": "@mrzhaobh/dsh-session-stars",
       "title": {
         "en": "Session stars",
