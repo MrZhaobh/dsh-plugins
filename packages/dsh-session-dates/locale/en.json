@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Session date labels",
-    "description": "Shows which day each sidebar session belongs to as a small label on the row end: Today, Yesterday, 9/14. It only uses a row slot the built-in workspace plugin already declares, so it replaces nothing and never needs re-porting after a DSH upgrade. With the default last-updated ordering, sessions from the same day are already contiguous."
+    "title": "Session date groups",
+    "description": "Adds date headings to the built-in sidebar in One list and Last updated mode. Uses the existing rows and their actions."
   }
 }

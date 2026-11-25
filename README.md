@@ -29,6 +29,7 @@ https://raw.githubusercontent.com/MrZhaobh/dsh-plugins/refs/heads/main/dsh-index
 |---|---|---|
 | `@mrzhaobh/dsh-plugin-sources` | 市场与源 | Plugins 页加「按来源」tab，把已安装插件按来源仓库分组（默认展开、可折叠） |
 | `@mrzhaobh/dsh-session-stars` | 侧栏 | 会话一键星标：悬停 ☆，已星标的行尾常驻 🌟（只占用内置槽位，**不替换任何内置插件**） |
+| `@mrzhaobh/dsh-session-dates` | 侧栏 | 在「单列表 + 最近更新」的原生会话列表里显示日期分组标题，保留星标与原生操作 |
 | `@mrzhaobh/dsh-composer-heal` | 输入框 | 输入框消失时自动重载页面，带熔断和现场落盘 |
 | `@mrzhaobh/dsh-sidebar-day-groups` | 侧栏 | 会话区按天分组 + 一键星标 + 置顶段（替换内置 `ui-workspace`）。**当前不上架**：见下 |
 

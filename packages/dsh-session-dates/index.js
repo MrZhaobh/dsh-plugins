@@ -5,7 +5,7 @@
  * browser half ships via exports["./client"], discovered through the package.json
  * dsh.client declaration).
  */
-/** Host plugin body — no host-side behavior for the session date labels. */
+/** Host plugin body — no host-side behavior for the session date headings. */
 function apply() {}
 //#endregion
 export { apply };

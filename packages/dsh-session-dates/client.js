@@ -5,7 +5,6 @@ window.__ModuleLoader__.load({
 		const exports = module.exports;
 		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 
-		const react = require("react");
 		const jsxRuntime = require("react/jsx-runtime");
 		const jsx = jsxRuntime.jsx;
 
@@ -47,55 +46,186 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 
-		/**
-		 * 行尾的日期标签。挂在 sidebar.session.row.trailing 上，不替换任何内置实现，
-		 * 所以 DSH 升级不需要重新适配。
-		 */
+		const SLOT = "sidebar.session.row.trailing";
+		const VIEW_KEY = "dsh.workspace.view.v5";
+		const MARKER = "data-dsh-session-day-row";
+		const HEADING = "data-dsh-session-day-heading";
+		const ROW = '[role="treeitem"][data-row-key^="session:"]';
+
+		function usesRecentFlatView() {
+			try {
+				const view = JSON.parse(window.localStorage.getItem(VIEW_KEY));
+				return view?.groupBy === "flat" && view.orderBy === "updated";
+			} catch {
+				return false;
+			}
+		}
+
+		function flatTree() {
+			const trees = document.querySelectorAll('[data-sidebar-list-area] [role="tree"]');
+			return [...trees].find((tree) => [...tree.classList].some((name) => name.endsWith("_flatList")));
+		}
+
+		function dateHeadings(tree, sessions, workspaces, now, translations) {
+			const headings = new Map();
+			if (!sessions?.byId || !Array.isArray(workspaces?.pinnedSessionIds) || !Array.isArray(workspaces.archivedSessionIds)) {
+				return headings;
+			}
+			const pinned = new Set(workspaces.pinnedSessionIds);
+			const archived = new Set(workspaces.archivedSessionIds);
+			let previousLabel;
+			let previousTime = Infinity;
+			for (const child of tree.children) {
+				const marker = child.querySelector(`[${MARKER}]`);
+				if (marker === null) {
+					// A blank session has no trailing slot. Any other session without our
+					// marker means the DOM or slot contract has changed.
+					const row = child.matches(ROW) ? child : child.querySelector(ROW);
+					const id = row?.getAttribute("data-row-key").slice("session:".length);
+					if (id && sessions.byId[id]?.blank !== true) return new Map();
+					continue;
+				}
+				const id = marker.getAttribute(MARKER);
+				const row = marker.closest(ROW);
+				if (row?.parentElement !== child || row.getAttribute("data-row-key") !== `session:${id}`) return new Map();
+				if (pinned.has(id) && !archived.has(id)) continue;
+				const at = sessions.byId[id]?.updatedAt;
+				const translation = translations.get(marker);
+				const date = relativeDayOf(at, now);
+				if (!translation || !date || at > previousTime) return new Map();
+				const label = translation(date.key, date.params);
+				if (label !== previousLabel) headings.set(child, label);
+				previousLabel = label;
+				previousTime = at;
+			}
+			return headings;
+		}
+
+		function stopSubscription(stop) {
+			if (typeof stop !== "function") return;
+			try {
+				stop();
+			} catch {
+				// A changed store contract must not prevent the decoration from cleaning up.
+			}
+		}
+
 		function apply(ctx) {
+			const sessions = ctx.get("sessions")?.list;
+			const workspaces = ctx.get("workspaces")?.list;
+			if (![sessions, workspaces].every((store) =>
+				typeof store?.getSnapshot === "function" && typeof store.subscribe === "function"
+			)) return;
+			const translations = new WeakMap();
 			ctx.effect(() => ctx.locale.register(NS, { zh, en }), "session-dates: dictionaries");
 
-			// sessions.list 是 Host 侧会话目录的 snapshot store，订阅它才能跟着会话刷新。
-			const sessions = ctx.get("sessions");
-			const list = sessions?.list;
+			let schedule = () => {};
+			ctx.effect(() => {
+				let stopSessions;
+				let stopWorkspaces;
+				try {
+					stopSessions = sessions.subscribe(() => schedule());
+					stopWorkspaces = workspaces.subscribe(() => schedule());
+				} catch {
+					stopSubscription(stopSessions);
+					return;
+				}
 
-			function SessionDate({ sessionId, t }) {
-				const state =
-					list === undefined
-						? undefined
-						: react.useSyncExternalStore(list.subscribe, list.getSnapshot, list.getSnapshot);
-				const summary = state?.byId?.[sessionId];
-				const relative = relativeDayOf(summary?.updatedAt, Date.now());
-				if (relative === undefined) return null;
-				const text =
-					relative.params === undefined ? t(relative.key) : t(relative.key, relative.params);
+				const style = document.createElement("style");
+				style.textContent = `
+					[${HEADING}]::before {
+						content: attr(${HEADING});
+						display: block;
+						margin: 8px 0 3px;
+						padding: 0 8px;
+						color: var(--dsw-alias-label-tertiary, #737373);
+						font-size: 11px;
+						font-weight: 600;
+						line-height: 18px;
+						pointer-events: none;
+					}
+				`;
+				document.head.append(style);
+
+				let painted = new Map();
+				let observedTree;
+				let frame;
+				const observer = new MutationObserver(() => schedule());
+				function render() {
+					frame = undefined;
+					const tree = flatTree();
+					if (tree !== observedTree) {
+						observer.disconnect();
+						observedTree = tree;
+						if (tree) observer.observe(tree, { childList: true, subtree: true });
+					}
+					let headings = new Map();
+					if (tree && usesRecentFlatView()) {
+						try {
+							headings = dateHeadings(tree, sessions.getSnapshot(), workspaces.getSnapshot(), Date.now(), translations);
+						} catch {
+							// A changed native contract leaves the list without date headings.
+						}
+					}
+					for (const node of painted.keys()) {
+						if (!headings.has(node)) node.removeAttribute(HEADING);
+					}
+					for (const [node, value] of headings) {
+						if (painted.get(node) !== value) node.setAttribute(HEADING, value);
+					}
+					painted = headings;
+				}
+				schedule = () => {
+					if (frame === undefined) frame = window.requestAnimationFrame(render);
+				};
+
+				// The view store saves same-window preferences after local menu actions.
+				document.addEventListener("click", schedule, true);
+				document.addEventListener("keydown", schedule, true);
+				window.addEventListener("storage", schedule);
+				const scheduleMidnight = () => {
+					const tomorrow = new Date();
+					tomorrow.setHours(24, 0, 0, 0);
+					return window.setTimeout(() => {
+						schedule();
+						midnight = scheduleMidnight();
+					}, tomorrow.getTime() - Date.now());
+				};
+				let midnight = scheduleMidnight();
+				schedule();
+
+				return () => {
+					stopSubscription(stopSessions);
+					stopSubscription(stopWorkspaces);
+					observer.disconnect();
+					document.removeEventListener("click", schedule, true);
+					document.removeEventListener("keydown", schedule, true);
+					window.removeEventListener("storage", schedule);
+					window.clearTimeout(midnight);
+					if (frame !== undefined) window.cancelAnimationFrame(frame);
+					schedule = () => {};
+					for (const node of painted.keys()) node.removeAttribute(HEADING);
+					style.remove();
+				};
+			}, "session-dates: native list headings");
+
+			function SessionDateMarker({ sessionId, t }) {
 				return jsx("span", {
-					className: "dsh-session-date",
-					title: text,
-					style: {
-						flex: "0 0 auto",
-						marginRight: "2px",
-						padding: "0 4px",
-						borderRadius: "4px",
-						fontSize: "10px",
-						lineHeight: "14px",
-						whiteSpace: "nowrap",
-						color: "var(--dsw-alias-label-tertiary, #8b8f96)",
-						background: "var(--dsw-alias-bg-secondary, rgba(255,255,255,0.05))",
+					hidden: true,
+					[MARKER]: sessionId,
+					ref: (node) => {
+						if (node) translations.set(node, t);
+						schedule();
 					},
-					children: text,
 				});
 			}
-
-			ctx.slots.inject("sidebar.session.row.trailing", () =>
-				ctx.slots.register(
-					{ name: "sidebar.session.row.trailing", id: "session-dates", order: 30, locale: NS },
-					SessionDate,
-				),
+			ctx.slots.inject(SLOT, () =>
+				ctx.slots.register({ name: SLOT, id: "session-dates", order: 30, locale: NS }, SessionDateMarker),
 			);
 		}
 
 		exports.apply = apply;
-		exports.inject = ["slots", "locale", "sessions"];
+		exports.inject = ["slots", "locale", "sessions", "workspaces"];
 		return module.exports;
 	},
 });
