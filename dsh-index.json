@@ -156,11 +156,11 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": null,
+          "publishTimestamp": 1795577353,
           "source": {
             "type": "git",
             "url": "https://github.com/MrZhaobh/dsh-plugins",
-            "commit": "",
+            "commit": "06998d8df71a0a5d3a1d39720089c7bed27f4e91",
             "path": "packages/dsh-session-stars"
           },
           "engines": {
