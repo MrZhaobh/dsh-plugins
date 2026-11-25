@@ -1,0 +1,60 @@
+{
+  "name": "@mrzhaobh/dsh-plugin-sources",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A By source tab on the Plugins page: groups installed plugins by where they came from (GitHub repository, npm registry, local directory, or shipped with DSH).",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./client": {
+      "default": "./client.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "engines": {
+      "dsh": ">=0.2.2-rc.5"
+    },
+    "client": {
+      "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dshMarket": {
+    "category": "market",
+    "labels": [
+      "uses-slots",
+      "zero-config"
+    ],
+    "keywords": [
+      "plugins",
+      "installed",
+      "group by source",
+      "repository",
+      "registry",
+      "按来源",
+      "分组",
+      "已安装插件"
+    ]
+  },
+  "scripts": {
+    "test": "node test/groups.test.mjs && node test/wiring.test.mjs"
+  },
+  "license": "MIT"
+}

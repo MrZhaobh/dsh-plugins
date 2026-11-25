@@ -1,0 +1,11 @@
+# @mrzhaobh/dsh-plugin-sources 的 bundle 层：插入它自己的一行。
+#
+# 不替换、不 disable 任何内置行。它只是往 Plugins 页的 plugins.tab 槽位里多加
+# 一个「按来源」tab（Discover 用的也是这个槽位），并在 tab 里按每个 bundle 的
+# `source` spec 分组展示，所以 DSH 升级时只要槽位协议不变就不用改。
+#
+# name 用相对路径（锚定在本 patch 文件旁）。浏览器半边由 package.json 的
+# dsh.client 声明自动挂到这一行上。
+- insert:
+    - id: plugin-sources
+      name: "./index.js"

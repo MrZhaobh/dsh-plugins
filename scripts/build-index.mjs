@@ -27,6 +27,7 @@ const declarations = {
   categories: {
     sidebar: { title: { en: 'Sidebar', zh: '侧栏' } },
     composer: { title: { en: 'Composer', zh: '输入框' } },
+    market: { title: { en: 'Market and sources', zh: '市场与源' } },
   },
   labels: {
     'builtin-fork': { title: { en: 'Replaces built-in', zh: '替换内置' } },
