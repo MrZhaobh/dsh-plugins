@@ -52,10 +52,16 @@ packages/<包名>/             每个插件一个目录，自带 package.json + 
 1. 改 `packages/<包名>/package.json` 的 `version`
 2. `git commit && git push`
 3. `node scripts/build-index.mjs` —— 给每个版本钉上该包目录最后一次改动的 commit
-4. `git add dsh-index.json && git commit -m "chore: rebuild index" && git push`
-5. DSH 的 Discover 页刷新
+4. 自检（普通 node 读不了 `app.asar`，要用 DSH 自带的 Electron 当 node）：
+   ```powershell
+   $env:ELECTRON_RUN_AS_NODE = '1'; & $env:DSH_NODE_EXECUTABLE scripts/check-index.mjs
+   ```
+5. `git add dsh-index.json && git commit -m "chore: rebuild index" && git push`
+6. DSH 的 Discover 页刷新
 
 索引里每个版本的 `source.commit` 指向**代码那次提交**，`publishTimestamp` 取那次提交的时间，所以第 3 步不会自指；历史版本从旧索引继承。
+
+`scripts/check-index.mjs` 调用的是 DSH 安装里**官方**的 `parseMarketIndex`，格式不合法时会直接给出出错的 JSON 路径，不用等加源时才发现。
 
 ## 许可
 
