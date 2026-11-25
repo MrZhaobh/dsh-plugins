@@ -1,8 +1,6 @@
 # @mrzhaobh/dsh-session-stars 的 bundle 层：插入它自己的一行。
 #
-# 它不替换任何内置插件，也不 disable 任何行 —— 星标按钮和标记都注册进内置
-# ui-workspace 已经声明的两个行槽位（sidebar.session.row.hover / .trailing），
-# 所以 DSH 升级时只要槽位协议不变，这个插件就不需要跟着改。
+# 使用原生会话行的 trailing 槽位接入，识别到原生标题时在其前面挂载星标按钮。
 #
 # name 用相对路径（锚定在本 patch 文件旁），从 git 装进 profile 的 node_modules
 # 后依然可解析。浏览器半边由 package.json 的 dsh.client 声明自动挂到这一行上，

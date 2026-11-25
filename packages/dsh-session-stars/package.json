@@ -1,8 +1,8 @@
 {
   "name": "@mrzhaobh/dsh-session-stars",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Star sidebar sessions with one click: a hover star on each row and a mark on starred rows. Uses the built-in workspace row slots, so it never replaces a built-in plugin.",
+  "description": "Star native sidebar sessions from a button before each title.",
   "type": "module",
   "main": "index.js",
   "exports": {

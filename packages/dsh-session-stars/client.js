@@ -7,6 +7,7 @@ window.__ModuleLoader__.load({
 
 		const react = require("react");
 		const jsxRuntime = require("react/jsx-runtime");
+		const { createPortal } = require("react-dom");
 
 		const NS = "session-stars";
 		const STORAGE_KEY = "dsh.workspace.starred.v1";
@@ -15,12 +16,10 @@ window.__ModuleLoader__.load({
 		const zh = {
 			star: "星标会话",
 			unstar: "取消星标",
-			starred: "已星标",
 		};
 		const en = {
 			star: "Star session",
 			unstar: "Remove star",
-			starred: "Starred",
 		};
 
 		//#region stars-core
@@ -64,7 +63,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 
-		/** 模块级单例 store：两个槽位里的组件共享同一份状态，任一处修改另一处立刻跟。 */
+		/** 模块级单例 store：所有原生会话行共享同一份星标状态。 */
 		const storage = (() => {
 			try {
 				return window.localStorage;
@@ -101,80 +100,94 @@ window.__ModuleLoader__.load({
 			return react.useSyncExternalStore(subscribe, getSnapshot, getSnapshot).ids;
 		}
 
-		/**
-		 * 悬停区里的 ☆ / ★ 按钮。hover 槽位只在会话行悬停时渲染，正合「悬停出现按钮」。
-		 * `t` 由注册时的 locale 命名空间注入；万一没注入也不能让整行跟着崩，所以退化成中文。
-		 */
-		function StarToggle({ sessionId, t }) {
-			const ids = useIds();
-			const starred = ids.indexOf(sessionId) !== -1;
+		const SLOT = "sidebar.session.row.trailing";
+		const ROW = '[role="treeitem"][data-row-key^="session:"]';
+		const HOST = "dsh-session-star-prefix";
+
+		function StarAtTitle({ sessionId, t }) {
+			const starred = useIds().includes(sessionId);
+			const marker = react.useRef(null);
+			const [mount, setMount] = react.useState(null);
+			react.useLayoutEffect(() => {
+				const anchor = marker.current;
+				const row = anchor?.closest(ROW);
+				if (!row?.closest("[data-sidebar-list-area]") || row.getAttribute("data-row-key") !== `session:${sessionId}`) return;
+				const title = [...row.children].find((child) => [...child.classList].some((name) => name.endsWith("_title")));
+				if (!title) return;
+				const host = row.ownerDocument.createElement("span");
+				host.className = HOST;
+				title.before(host);
+				setMount(host);
+				return () => host.remove();
+			}, [sessionId]);
+
 			const label = typeof t === "function" ? t(starred ? "unstar" : "star") : starred ? "取消星标" : "星标会话";
-			return jsxRuntime.jsx("button", {
+			const button = jsxRuntime.jsx("button", {
 				type: "button",
 				className: "dsh-session-star-toggle",
-				"data-starred": starred ? "true" : "false",
+				"data-starred": String(starred),
 				"aria-label": label,
 				"aria-pressed": starred,
 				title: label,
-				style: {
-					background: "none",
-					border: "0",
-					padding: "0 3px",
-					margin: "0",
-					cursor: "pointer",
-					font: "inherit",
-					fontSize: "12px",
-					lineHeight: "1",
-					color: starred ? "#e8b339" : "inherit",
-					opacity: starred ? "1" : "0.7",
-				},
 				onClick: (event) => {
-					// 会话行本身可点开，必须拦住冒泡，否则点星标会跳转会话
 					event.preventDefault();
 					event.stopPropagation();
 					toggle(sessionId);
 				},
-				children: starred ? "★" : "☆",
-			});
-		}
-
-		/**
-		 * 行尾的 🌟 标记。放在 trailing 而不是 leading：leading 在有运行状态点时
-		 * 会被状态点顶掉，星标标记不能跟着状态闪。
-		 */
-		function StarMark({ sessionId, t }) {
-			const ids = useIds();
-			if (ids.indexOf(sessionId) === -1) return null;
-			const label = typeof t === "function" ? t("starred") : "已星标";
-			return jsxRuntime.jsx("span", {
-				className: "dsh-session-star-mark",
-				role: "img",
-				"aria-label": label,
-				title: label,
-				style: {
-					marginLeft: "2px",
-					fontSize: "10px",
-					lineHeight: "1",
-					verticalAlign: "middle",
-				},
 				children: "🌟",
+			});
+			return jsxRuntime.jsxs(jsxRuntime.Fragment, {
+				children: [
+					jsxRuntime.jsx("span", { hidden: true, ref: marker }),
+					mount ? createPortal(button, mount) : null,
+				],
 			});
 		}
 
 		function apply(ctx) {
 			ctx.effect(() => ctx.locale.register(NS, { zh, en }), "session-stars: dictionaries");
+			ctx.effect(() => {
+				const style = document.createElement("style");
+				style.textContent = `
+					.${HOST} { display: none; }
+					.${HOST}:has(> button[data-starred="true"]),
+					html[data-input-modality="keyboard"] ${ROW}:focus-within > .${HOST} {
+						display: inline-flex;
+					}
+					@media (hover: hover) {
+						${ROW}:hover > .${HOST} { display: inline-flex; }
+					}
+					.${HOST} {
+						flex: 0 0 20px;
+						margin-inline-start: 4px;
+						align-items: center;
+						justify-content: center;
+					}
+					.${HOST} > button {
+						display: grid;
+						place-items: center;
+						inline-size: 20px;
+						block-size: 22px;
+						background: none;
+						border: 0;
+						padding: 0;
+						border-radius: 4px;
+						font: inherit;
+						font-size: 13px;
+						cursor: pointer;
+					}
+					.${HOST} > button[data-starred="false"] { filter: grayscale(1); opacity: .7; }
+					.${HOST} > button:hover,
+					.${HOST} > button:focus-visible { background: var(--dsw-alias-interactive-bg-hover); opacity: 1; }
+				`;
+				document.head.append(style);
+				return () => style.remove();
+			}, "session-stars: primary row button");
 
-			// 两个槽位都由内置 ui-workspace 声明；插件被禁用或未装时这里只是挂着，不报错。
-			ctx.slots.inject("sidebar.session.row.hover", () =>
+			ctx.slots.inject(SLOT, () =>
 				ctx.slots.register(
-					{ name: "sidebar.session.row.hover", id: "session-stars-toggle", order: 50, locale: NS },
-					StarToggle,
-				),
-			);
-			ctx.slots.inject("sidebar.session.row.trailing", () =>
-				ctx.slots.register(
-					{ name: "sidebar.session.row.trailing", id: "session-stars-mark", order: 50, locale: NS },
-					StarMark,
+					{ name: SLOT, id: "session-stars-at-title", order: 50, locale: NS },
+					StarAtTitle,
 				),
 			);
 		}
