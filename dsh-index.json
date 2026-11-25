@@ -228,8 +228,8 @@
         "zh": "会话星标"
       },
       "description": {
-        "en": "Star sidebar sessions with one click: a star appears on the row while hovering, and starred rows keep a mark at the end. It only uses the row slots the built-in workspace plugin already declares, so it replaces nothing and usually survives a DSH upgrade. Stars live in browser localStorage under dsh.workspace.starred.v1.",
-        "zh": "给侧栏会话一键加星：悬停时行尾出现 ☆，点一下变金色 ★ 并在行尾留下 🌟 标记。只占用内置会话区已经声明的行槽位，不替换任何内置插件，所以 DSH 升级通常不需要跟着改。星标状态存在浏览器本地（localStorage 的 dsh.workspace.starred.v1）。"
+        "en": "Hover over a native sidebar session and click the star before its title. Starred sessions keep a gold star in the same place.",
+        "zh": "悬停原生会话行，在标题前点击 🌟 加星。已星标的会话在同一位置显示金色标记。"
       },
       "author": "MrZhaobh",
       "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-session-stars",
@@ -257,6 +257,19 @@
         ]
       },
       "versions": [
+        {
+          "version": "1.1.0",
+          "publishTimestamp": 1795597308,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/MrZhaobh/dsh-plugins",
+            "commit": "b1da2558ac2f9866816761ab1e0bd75d50dfcad5",
+            "path": "packages/dsh-session-stars"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.5"
+          }
+        },
         {
           "version": "1.0.0",
           "publishTimestamp": 1795577353,
