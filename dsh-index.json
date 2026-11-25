@@ -161,11 +161,11 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": 1795592389,
+          "publishTimestamp": 1795592427,
           "source": {
             "type": "git",
             "url": "https://github.com/MrZhaobh/dsh-plugins",
-            "commit": "6f205479096e7c016800c3701fc380decce04b27",
+            "commit": "20d30390edd73d6bf1da17c7e150fbeb99e892de",
             "path": "packages/dsh-plugin-sources"
           },
           "engines": {
