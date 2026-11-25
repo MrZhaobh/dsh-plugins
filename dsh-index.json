@@ -263,11 +263,11 @@
       "versions": [
         {
           "version": "2.0.0",
-          "publishTimestamp": 1795577924,
+          "publishTimestamp": 1795580769,
           "source": {
             "type": "git",
             "url": "https://github.com/MrZhaobh/dsh-plugins",
-            "commit": "09962b0d0a735ea0c8d92f7e3397140d7519fea9",
+            "commit": "e7e43630bcedaaa2f33ede1dc720585171a71a27",
             "path": "packages/dsh-sidebar-day-groups"
           },
           "engines": {
