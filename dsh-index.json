@@ -21,6 +21,12 @@
           "en": "Composer",
           "zh": "输入框"
         }
+      },
+      "market": {
+        "title": {
+          "en": "Market and sources",
+          "zh": "市场与源"
+        }
       }
     },
     "labels": {
@@ -114,6 +120,56 @@
           },
           "engines": {
             "dsh": ">=0.2.1-rc.1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@mrzhaobh/dsh-plugin-sources",
+      "title": {
+        "en": "Plugins by source",
+        "zh": "插件按来源分组"
+      },
+      "description": {
+        "en": "Adds a By source tab to the Plugins page: installed plugins grouped by where they came from — which GitHub repository, the npm registry, a local directory, or shipped with DSH. Each group shows its count, all groups start expanded, and a group title collapses it (remembered locally). It only reads the Host's existing plugin list and changes no plugins.",
+        "zh": "在 Plugins 页加一个「按来源」标签页：把已安装插件按来源仓库分组——GitHub 上的哪个仓库、npm registry、本地目录，还是 DSH 自带。每组显示数量，默认全部展开，点组标题可折叠（状态记在本机）。只读取 Host 已有的插件清单，不修改任何插件。"
+      },
+      "author": "MrZhaobh",
+      "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-plugin-sources",
+      "repository": {
+        "url": "https://github.com/MrZhaobh/dsh-plugins",
+        "directory": "packages/dsh-plugin-sources"
+      },
+      "icon": "packages/dsh-plugin-sources/icon.svg",
+      "metadata": {
+        "category": "market",
+        "labels": [
+          "uses-slots",
+          "zero-config"
+        ],
+        "keywords": [
+          "plugins",
+          "installed",
+          "group by source",
+          "repository",
+          "registry",
+          "按来源",
+          "分组",
+          "已安装插件"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1795578629,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/MrZhaobh/dsh-plugins",
+            "commit": "7fa2a212a66258d2c3339896ba443406d1daf66e",
+            "path": "packages/dsh-plugin-sources"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.5"
           }
         }
       ]
