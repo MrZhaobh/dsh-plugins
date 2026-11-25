@@ -224,6 +224,57 @@
           }
         }
       ]
+    },
+    {
+      "name": "@mrzhaobh/dsh-sidebar-day-groups",
+      "title": {
+        "en": "Sidebar day groups",
+        "zh": "侧栏按天分组"
+      },
+      "description": {
+        "en": "Sections sidebar sessions under today, yesterday, and exact dates, each collapsible with a count, and pinned sessions get their own section. It is applied as four targeted edits to the installed workspace bundle rather than a full patch replay, aligned to DSH 0.2.2-rc.5; after a DSH upgrade run scripts/port-day-groups.mjs to realign.",
+        "zh": "把侧栏会话按「今天 / 昨天 / 具体日期」分段，每段可折叠并显示条数，置顶会话单独成段。做法是在当前安装的会话区 bundle 上做四处定点移植（不是复制整包重打补丁），所以跟你的 DSH 版本对齐到 0.2.2-rc.5；DSH 升级后跑一次 scripts/port-day-groups.mjs 即可重新对齐。"
+      },
+      "author": "MrZhaobh",
+      "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-sidebar-day-groups",
+      "repository": {
+        "url": "https://github.com/MrZhaobh/dsh-plugins",
+        "directory": "packages/dsh-sidebar-day-groups"
+      },
+      "icon": "packages/dsh-sidebar-day-groups/icon.svg",
+      "metadata": {
+        "category": "sidebar",
+        "labels": [
+          "builtin-fork",
+          "needs-restart"
+        ],
+        "keywords": [
+          "sidebar",
+          "session list",
+          "group by day",
+          "day groups",
+          "date sections",
+          "按天分组",
+          "日期分段",
+          "今天",
+          "昨天"
+        ]
+      },
+      "versions": [
+        {
+          "version": "2.0.0",
+          "publishTimestamp": 1795577924,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/MrZhaobh/dsh-plugins",
+            "commit": "09962b0d0a735ea0c8d92f7e3397140d7519fea9",
+            "path": "packages/dsh-sidebar-day-groups"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.5"
+          }
+        }
+      ]
     }
   ]
 }

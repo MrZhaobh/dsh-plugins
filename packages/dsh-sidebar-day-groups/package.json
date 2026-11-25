@@ -1,8 +1,8 @@
 {
   "name": "@mrzhaobh/dsh-sidebar-day-groups",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Sidebar day groups, one-click stars, and a pinned section for DeepSeek Harness, delivered as a patched fork of the built-in workspace plugin.",
+  "description": "Sidebar day groups for DeepSeek Harness: sessions sectioned under today, yesterday, and exact dates. Ported onto the installed ui-workspace bundle by four targeted edits, not a full patch replay.",
   "type": "module",
   "files": [
     "cordis.patch.yml",
@@ -14,38 +14,35 @@
   "dsh": {
     "manifestVersion": 1,
     "engines": {
-      "dsh": "0.2.2-rc.1"
+      "dsh": ">=0.2.2-rc.5"
     },
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
   },
   "dshMarket": {
-    "exclude": true,
     "category": "sidebar",
     "labels": [
       "builtin-fork",
-      "version-pinned",
       "needs-restart"
     ],
     "keywords": [
       "sidebar",
       "session list",
       "group by day",
-      "star",
-      "favorite",
-      "pinned",
+      "day groups",
+      "date sections",
       "按天分组",
-      "星标",
-      "置顶"
+      "日期分段",
+      "今天",
+      "昨天"
     ]
   },
   "scripts": {
-    "test": "node scripts/test-day-groups.mjs && node scripts/test-stars.mjs",
-    "check": "node scripts/refresh.mjs --check",
-    "refresh": "node scripts/refresh.mjs",
-    "make-patch": "node scripts/make-patch.mjs",
-    "live-check": "node scripts/live-check.mjs"
+    "test": "node test/day-groups.test.mjs",
+    "check": "node scripts/port-day-groups.mjs --check",
+    "port": "node scripts/port-day-groups.mjs",
+    "refresh": "node scripts/refresh.mjs"
   },
   "license": "MIT"
 }

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Sidebar day groups and stars",
-    "description": "Groups sidebar sessions under today, yesterday, and exact dates, and adds a one-click star to each session row. It replaces the built-in workspace plugin, so it is tied to one DSH version: this bundle targets 0.2.2-rc.1 and needs the fork patch replayed before it installs on a newer DSH."
+    "title": "Sidebar day groups",
+    "description": "Sections sidebar sessions under today, yesterday, and exact dates, each collapsible with a count, and pinned sessions get their own section. It is applied as four targeted edits to the installed workspace bundle rather than a full patch replay, aligned to DSH 0.2.2-rc.5; after a DSH upgrade run scripts/port-day-groups.mjs to realign."
   }
 }

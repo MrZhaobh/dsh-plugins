@@ -1,7 +1,7 @@
 {
   "name": "@deepseek-ai/dsh-client-ui-workspace",
-  "version": "0.2.2-rc.1",
-  "description": "会话区实现（上游 0.2.2-rc.1 的打补丁版）：按天分组 + 一键星标 + 置顶分段",
+  "version": "0.2.2-rc.5",
+  "description": "会话区实现（上游 0.2.2-rc.5）：由 scripts/port-day-groups.mjs 在原始 bundle 上加入「按天分组」，勿手改 client.js",
   "type": "module",
   "main": "index.js",
   "exports": {
