@@ -38,6 +38,7 @@ function replaceOnce(label, from, to) {
   const index = source.indexOf(from);
   if (index === -1) {
     console.error(`\n[FAIL] ${label}: anchor not found in the upstream bundle.`);
+    diagnose(from);
     console.error('       上游又变了，需要重新定位这一处。未写出任何文件。');
     process.exit(3);
   }
@@ -47,6 +48,45 @@ function replaceOnce(label, from, to) {
   }
   source = source.slice(0, index) + to + source.slice(index + from.length);
   applied.push(label);
+}
+
+/**
+ * 锚点失效时给人工定位提供线索：拿锚点里的标识符去上游里找，优先挑**出现次数最少**
+ * 的那个（稀有度比长度更能定位），打印它的位置和附近源码。
+ * 通常一眼就能看出上游把这行改成了什么写法。
+ */
+function diagnose(from) {
+  // 带点的完整表达式（group.ungrouped、row.workspaceId）比裸标识符独特得多，优先收进来
+  const dotted = from.match(/[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*){1,3}/gu) ?? [];
+  const bare = from.match(/[A-Za-z_$][\w$]{5,}/gu) ?? [];
+  const tokens = [...new Set([...dotted, ...bare])];
+  const candidates = [];
+  for (const token of tokens) {
+    let count = 0;
+    let at = source.indexOf(token);
+    const first = at;
+    while (at !== -1 && count < 50) {
+      count += 1;
+      at = source.indexOf(token, at + token.length);
+    }
+    if (count > 0) candidates.push({ token, count, first });
+  }
+  if (candidates.length === 0) {
+    console.error('       连锚点里的关键字都找不到 —— 这个函数可能被整体重写了。');
+    return;
+  }
+  // 出现次数少的优先；次数相同则取更长的（更有辨识度）
+  candidates.sort((left, right) => left.count - right.count || right.token.length - left.token.length);
+  for (const candidate of candidates.slice(0, 2)) {
+    console.error(
+      `       上游里 "${candidate.token}" 出现 ${candidate.count} 次，首个在偏移 ${candidate.first}，附近是：`,
+    );
+    console.error(
+      `       ${source
+        .slice(Math.max(0, candidate.first - 140), candidate.first + 240)
+        .replace(/\s+/gu, ' ')}`,
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
