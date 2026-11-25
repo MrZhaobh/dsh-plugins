@@ -1,0 +1,162 @@
+{
+  "format": 1,
+  "title": {
+    "en": "MrZhaobh's DSH plugins",
+    "zh": "MrZhaobh 的 DSH 插件"
+  },
+  "description": {
+    "en": "Personal DeepSeek Harness plugins: sidebar day groups, composer self-heal.",
+    "zh": "自用的 DeepSeek Harness 插件：侧栏按天分组、输入框自愈。"
+  },
+  "metadata": {
+    "categories": {
+      "sidebar": {
+        "title": {
+          "en": "Sidebar",
+          "zh": "侧栏"
+        }
+      },
+      "composer": {
+        "title": {
+          "en": "Composer",
+          "zh": "输入框"
+        }
+      }
+    },
+    "labels": {
+      "builtin-fork": {
+        "title": {
+          "en": "Replaces built-in",
+          "zh": "替换内置"
+        }
+      },
+      "version-pinned": {
+        "title": {
+          "en": "Version pinned",
+          "zh": "版本锁定"
+        }
+      },
+      "needs-restart": {
+        "title": {
+          "en": "Needs restart",
+          "zh": "需重启"
+        }
+      },
+      "zero-config": {
+        "title": {
+          "en": "No setup",
+          "zh": "零配置"
+        }
+      },
+      "writes-log": {
+        "title": {
+          "en": "Writes a log",
+          "zh": "会写日志"
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "@mrzhaobh/dsh-composer-heal",
+      "title": {
+        "en": "Composer self-heal",
+        "zh": "输入框自愈"
+      },
+      "description": {
+        "en": "Reloads the page when a session is open but the composer has disappeared, and appends what it saw to ~/.dsh/logs/composer-heal.jsonl so the original crash can be diagnosed later. At most three automatic reloads per ten minutes, then it stops and shows a notice.",
+        "zh": "会话已打开但输入框消失时自动重载页面，并把现场追加写入 ~/.dsh/logs/composer-heal.jsonl，方便事后定位真正的崩溃原因。10 分钟内最多自动重载 3 次，超过就停手并在右下角挂一条提示，不会刷新死循环。"
+      },
+      "author": "MrZhaobh",
+      "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-composer-heal",
+      "repository": {
+        "url": "https://github.com/MrZhaobh/dsh-plugins",
+        "directory": "packages/dsh-composer-heal"
+      },
+      "icon": "packages/dsh-composer-heal/icon.svg",
+      "metadata": {
+        "category": "composer",
+        "labels": [
+          "zero-config",
+          "writes-log"
+        ],
+        "keywords": [
+          "composer",
+          "input box",
+          "self heal",
+          "reload",
+          "输入框",
+          "自愈",
+          "重载"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1795576194,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/MrZhaobh/dsh-plugins",
+            "commit": "fe38315f202a26431212ed449d9a910b74c87bed",
+            "path": "packages/dsh-composer-heal"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@mrzhaobh/dsh-sidebar-day-groups",
+      "title": {
+        "en": "Sidebar day groups and stars",
+        "zh": "侧栏：按天分组 + 星标"
+      },
+      "description": {
+        "en": "Groups sidebar sessions under today, yesterday, and exact dates, and adds a one-click star to each session row. It replaces the built-in workspace plugin, so it is tied to one DSH version: this bundle targets 0.2.2-rc.1 and needs the fork patch replayed before it installs on a newer DSH.",
+        "zh": "把侧栏会话分成「今天 / 昨天 / 具体日期」分段，并给会话行加一键星标。因为是替换内置会话区，所以与 DSH 版本强绑定：当前 bundle 基于 0.2.2-rc.1，在更新的 DSH 上需要先重放补丁（见包内 README）才可安装。"
+      },
+      "author": "MrZhaobh",
+      "homepage": "https://github.com/MrZhaobh/dsh-plugins/tree/main/packages/dsh-sidebar-day-groups",
+      "repository": {
+        "url": "https://github.com/MrZhaobh/dsh-plugins",
+        "directory": "packages/dsh-sidebar-day-groups"
+      },
+      "icon": "packages/dsh-sidebar-day-groups/icon.svg",
+      "metadata": {
+        "category": "sidebar",
+        "labels": [
+          "builtin-fork",
+          "version-pinned",
+          "needs-restart"
+        ],
+        "keywords": [
+          "sidebar",
+          "session list",
+          "group by day",
+          "star",
+          "favorite",
+          "pinned",
+          "按天分组",
+          "星标",
+          "置顶"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1795576194,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/MrZhaobh/dsh-plugins",
+            "commit": "fe38315f202a26431212ed449d9a910b74c87bed",
+            "path": "packages/dsh-sidebar-day-groups"
+          },
+          "engines": {
+            "dsh": "0.2.2-rc.1"
+          }
+        }
+      ]
+    }
+  ]
+}
