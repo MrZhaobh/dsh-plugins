@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "Plugins by source",
-    "description": "Adds a By source tab to the Plugins page: installed plugins grouped by where they came from — which GitHub repository, the npm registry, a local directory, or shipped with DSH. Each group shows its count, all groups start expanded, and a group title collapses it (remembered locally). It only reads the Host's existing plugin list and changes no plugins."
+    "description": "Adds a By source tab to the Plugins page: installed plugins grouped by where they came from (GitHub repository, npm registry, local directory, or shipped with DSH), as cards with icon, description, version, and running state — enable, disable, or uninstall them right there. Only installed plugins are listed; unselected shipped bundles stay out."
   }
 }

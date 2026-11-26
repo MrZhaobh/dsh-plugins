@@ -11,10 +11,10 @@ const end = bundle.indexOf('//#endregion', start);
 if (start === -1 || end === -1) throw new Error('group-core region not found in client.js');
 const region = bundle.slice(bundle.indexOf('\n', start) + 1, end);
 
-const COLLAPSED_KEY = 'dsh.pluginSources.collapsed.v1';
+const COLLAPSED_KEY = 'dsh.pluginSources.collapsed.v2';
 const factory = new Function(
   'COLLAPSED_KEY',
-  `${region}\nreturn { FIXED_GROUPS, groupKeyOf, groupTitleOf, groupEntries, readCollapsed, writeCollapsed };`,
+  `${region}\nreturn { FIXED_GROUPS, groupKeyOf, groupTitleOf, isInstalledEntry, visibleEntries, groupEntries, readCollapsed, writeCollapsed };`,
 );
 const api = factory(COLLAPSED_KEY);
 
@@ -66,6 +66,23 @@ check('empty source string', api.groupKeyOf({ source: '' }), 'unknown');
 // --- groupTitleOf ---
 check('fixed group keeps its id for the dictionary', api.groupTitleOf('registry'), 'registry');
 check('repo group drops its prefix', api.groupTitleOf('github:v3887023/dsh-plugins'), 'v3887023/dsh-plugins');
+
+// --- isInstalledEntry / visibleEntries：只列已安装 ---
+check('a profile dependency counts as installed', api.isInstalledEntry({ name: 'a', installed: true }), true);
+check('a profile-provided package counts as installed', api.isInstalledEntry({ name: 'a', availability: 'profile' }), true);
+check('an unselected shipped bundle does not', api.isInstalledEntry({ name: 'b', availability: 'installation', installed: false }), false);
+check('an installed shipped bundle does', api.isInstalledEntry({ name: 'b', availability: 'installation', installed: true }), true);
+check('null entry is not installed', api.isInstalledEntry(null), false);
+check(
+  'visibleEntries keeps only installed bundles',
+  api.visibleEntries([
+    { name: 'a', installed: true },
+    { name: 'b', availability: 'installation', installed: false },
+    { name: 'c', availability: 'profile' },
+  ]).map((entry) => entry.name),
+  ['a', 'c'],
+);
+check('visibleEntries tolerates a non-array', api.visibleEntries(null), []);
 
 // --- groupEntries：分组、组内名称序、组间数量降序 ---
 const entries = [

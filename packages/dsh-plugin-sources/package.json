@@ -1,8 +1,8 @@
 {
   "name": "@mrzhaobh/dsh-plugin-sources",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "A By source tab on the Plugins page: groups installed plugins by where they came from (GitHub repository, npm registry, local directory, or shipped with DSH).",
+  "description": "A By source tab on the Plugins page: installed plugins as cards grouped by where they came from (GitHub repository, npm registry, local directory, or shipped with DSH), with icon, description, version, running state, an enable switch, and uninstall.",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -48,9 +48,15 @@
       "group by source",
       "repository",
       "registry",
+      "enable",
+      "disable",
+      "uninstall",
       "按来源",
       "分组",
-      "已安装插件"
+      "已安装插件",
+      "启用",
+      "停用",
+      "卸载"
     ]
   },
   "scripts": {

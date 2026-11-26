@@ -27,7 +27,7 @@ https://raw.githubusercontent.com/MrZhaobh/dsh-plugins/refs/heads/main/dsh-index
 
 | 包名 | 分类 | 说明 |
 |---|---|---|
-| `@mrzhaobh/dsh-plugin-sources` | 市场与源 | Plugins 页加「按来源」tab，把已安装插件按来源仓库分组（默认展开、可折叠） |
+| `@mrzhaobh/dsh-plugin-sources` | 市场与源 | Plugins 页加「按来源」tab：只列已安装插件、按来源仓库分组，卡片显示图标/简介/版本/运行状态，可直接启用·停用·卸载 |
 | `@mrzhaobh/dsh-session-stars` | 侧栏 | 悬停时在原生会话标题前显示星标按钮，已加星的会话在同一位置显示 🌟 |
 | `@mrzhaobh/dsh-session-dates` | 侧栏 | 在「单列表 + 最近更新」的原生会话列表里显示日期分组标题，保留星标与原生操作 |
 | `@mrzhaobh/dsh-composer-heal` | 输入框 | 输入框消失时自动重载页面，带熔断和现场落盘 |
